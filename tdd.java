@@ -1,6 +1,3 @@
-
-
-
 import java.util.Scanner;
 
 public class tdd {
@@ -26,6 +23,19 @@ public class tdd {
 //	}
 	
 	
+	public static int checkNumberOfCommas(String s)
+	{
+		int commas = 0;
+		for (int i = 0; i < s.length(); i++)
+		{
+			if (s.substring(i, i+1).equals(","))
+				commas++;
+		}
+		return commas;
+	}
+	
+	
+	
 	public static int Add(String str)
 	{
 //		if (checkForLetters(str) == true)
@@ -45,18 +55,56 @@ public class tdd {
 		
 		else 
 		{
-			int[] nums = new int[str.length()];
-		
-			for (int i = 0; i < str.length(); i++)
+			if (checkNumberOfCommas(str) == 1)
 			{
-				if (str.substring(i, i+1).equals(",") || str.substring(i, i+1).equals(null)){
-					nums[0] = Integer.parseInt(str.substring(0, i));
-					nums[1] = Integer.parseInt(str.substring(i+1, str.length()));
-					continue;
+				int[] nums = new int[str.length()];
+		
+				for (int i = 0; i < str.length(); i++)
+				{
+					if (str.substring(i, i+1).equals(",") || str.substring(i, i+1).equals(null)){
+						nums[0] = Integer.parseInt(str.substring(0, i));
+						nums[1] = Integer.parseInt(str.substring(i+1, str.length()));
+						continue;
+					}
 				}
+				
+				return nums[0] + nums[1];
 			}
-			
-			return nums[0] + nums[1] + nums[2];
+			else
+			{
+				int c = checkNumberOfCommas(str);
+				int[] nums = new int[c+1];
+				int k = 0;
+				for (int i = 0; i < str.length(); i++)
+				{
+					
+					for (int j = i; j < str.length(); j++)
+					{
+						if (str.substring(j, j+1).equals(","))
+						{
+							nums[k] = Integer.parseInt(str.substring(i, j));
+							k++;
+							i = j;
+							j = str.length();
+						}
+						if (k == c)
+						{
+							nums[k] = Integer.parseInt(str.substring(i+1));
+							i = str.length();
+						}
+					}
+					
+				}
+				
+				int sum = 0;
+				for (int p = 0; p < c+1; p++)
+				{
+					sum = sum + nums[p];
+//					System.out.println(nums[p]);
+				}
+//				System.out.println(k);
+				return sum;
+			}
 		}
 	
 	}
